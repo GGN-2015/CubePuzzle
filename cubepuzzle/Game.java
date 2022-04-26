@@ -1,8 +1,7 @@
 package cubepuzzle;
 
-import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -15,14 +14,33 @@ public class Game {
 
     public Cube myCube;
 
+    public Game(int lenX, int lenY, int beginX, int beginY, int endX, int endY) {
+        this.lenX   = lenX;
+        this.lenY   = lenY;
+        this.beginX = beginX;
+        this.beginY = beginY;
+        this.endX   = endX;
+        this.endY   = endY;
+        this.myCube = new Cube();
+        chessboard = new String[lenX][lenY];
+        for(int i = 0; i < lenX; i ++) {
+            for(int j = 0; j < lenY; j ++) {
+                chessboard[i][j] = "basic.none";
+            }
+        }
+        posX = beginX;
+        posY = beginY;
+    }
+
     //read in game information from a file
     public Game(String fileName) throws FileNotFoundException{
-        Scanner fin  = new Scanner(new FileReader(fileName));
+        File file = new File(fileName);
+        Scanner fin  = new Scanner(file);
         lenX   = fin.nextInt();
         lenY   = fin.nextInt();
         beginX = fin.nextInt();
-        endX   = fin.nextInt();
         beginY = fin.nextInt();
+        endX   = fin.nextInt();
         endY   = fin.nextInt();
         chessboard = new String[lenX][lenY];
         for(int i = 0; i < lenX; i ++) {
@@ -110,13 +128,14 @@ public class Game {
         }
     }
 
+    // only used to debug a game
     public void debugShow() {
         System.out.println("Game.debugShow:");
         myCube.debugShow();
         for(int i = 0; i < lenX; i ++) {
             for(int j = 0; j < lenY; j ++) {
                 if(i == posX && j == posY) {
-                    System.out.print("basic.cube");
+                    System.out.print("basic.cube" + "\t");
                 }else {
                     System.out.print(chessboard[i][j] + "\t"); 
                 }
@@ -126,14 +145,13 @@ public class Game {
         System.out.println();
     }
 
+    // only used to debug a game
     public void debugShowAndMove(Scanner cin) {
         debugShow();
-        System.out.println(">>>");
+        if(win()) return;
+        System.out.print(">>>");
         String ope = cin.next().toLowerCase();
         for(int i = 0; i < ope.length(); i ++) {
-            if(win()) {
-                break;
-            }
             if(ope.charAt(i) == 'w') moveIn();
             if(ope.charAt(i) == 'a') moveLeft();
             if(ope.charAt(i) == 's') moveOut();
@@ -141,50 +159,15 @@ public class Game {
         }
     }
 
-    public static boolean readfile(String filepath) throws FileNotFoundException, IOException {
-        try {
-            File file = new File(filepath);
-            if (!file.isDirectory()) {
-                System.out.println("文件");
-                System.out.println("path=" + file.getPath());
-                System.out.println("absolutepath=" + file.getAbsolutePath());
-                System.out.println("name=" + file.getName());
- 
-            } else if (file.isDirectory()) {
-                System.out.println("文件夹");
-                String[] filelist = file.list();
-                for (int i = 0; i < filelist.length; i++) {
-                    File readfile = new File(filepath + "\\" + filelist[i]);
-                    if (!readfile.isDirectory()) {
-                        System.out.println("path=" + readfile.getPath());
-                        System.out.println("absolutepath="
-                                + readfile.getAbsolutePath());
-                        System.out.println("name=" + readfile.getName());
-                        System.out.println();
-                    } else if (readfile.isDirectory()) {
-                        readfile(filepath + "\\" + filelist[i]);
-                    }
-                }
- 
-            }
- 
-        } catch (FileNotFoundException e) {
-            System.out.println("readfile()   Exception:" + e.getMessage());
-        }
-        return true;
-    }
-
     // this main fucntion is only used to debuge class Game
     public static void main(String[] args) throws FileNotFoundException, IOException {
-        String path = System.getProperty("java.class.path");
-        System.out.println(path);
-        readfile(path);
-        Game tutorial_0 = new Game("turorial.0.txt");
+        Game tutorial_0 = new Game("games/tutorial.0.txt");
         Scanner cin = new Scanner(System.in);
-        while(!tutorial_0.win()) {
+        do {
             tutorial_0.debugShowAndMove(cin);
-        }
+        } while(!tutorial_0.win());
         if(tutorial_0.win()) {
+            tutorial_0.debugShow();
             System.out.println("You Win!");
         }
     }
