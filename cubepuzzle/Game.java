@@ -1,6 +1,5 @@
 package cubepuzzle;
 
-import java.io.IOException;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
@@ -8,9 +7,9 @@ import java.util.Scanner;
 
 public class Game {
     public final int lenX, lenY, beginX, beginY, endX, endY;
-    private int posX, posY, stepCnt = 0;
-    private String chessboard[][];
-    public  String[] information;
+    int posX, posY, stepCnt = 0;
+    String chessboard[][];
+    public String[] information;
 
     public Cube myCube;
 
@@ -72,14 +71,15 @@ public class Game {
     }
 
     // you have enter a new grid on board, check whether this move is valid
-    public boolean checkPosEnter() {
+    public boolean checkPosEnter() throws Exception {
         // for debug, we say every move is valid
-        return true;
+        // return true;
+        return Rules.checkPosEnterAvailable(chessboard[posX][posY], myCube);
     }
 
     // there are four directions to move the cube
     // basic idea: move in ; check ; move out on failure
-    public void moveLeft() {
+    public void moveLeft() throws Exception {
         if(posY > 0) {
             stepCnt ++;
             posY --;
@@ -91,7 +91,7 @@ public class Game {
             }
         }
     }
-    public void moveRight() {
+    public void moveRight() throws Exception {
         if(posY < lenY - 1) {
             stepCnt ++;
             posY ++;
@@ -103,7 +103,7 @@ public class Game {
             }
         }
     }
-    public void moveIn() {
+    public void moveIn() throws Exception {
         if(posX > 0) {
             stepCnt ++;
             posX --;
@@ -115,7 +115,7 @@ public class Game {
             }
         }
     }
-    public void moveOut() {
+    public void moveOut() throws Exception {
         if(posX < lenX - 1) {
             stepCnt ++;
             posX ++;
@@ -146,7 +146,7 @@ public class Game {
     }
 
     // only used to debug a game
-    public void debugShowAndMove(Scanner cin) {
+    public void debugShowAndMove(Scanner cin) throws Exception {
         debugShow();
         if(win()) return;
         System.out.print(">>>");
@@ -160,7 +160,7 @@ public class Game {
     }
 
     // this main fucntion is only used to debuge class Game
-    public static void main(String[] args) throws FileNotFoundException, IOException {
+    public static void main(String[] args) throws Exception {
         Game tutorial_0 = new Game("games/tutorial.0.txt");
         Scanner cin = new Scanner(System.in);
         do {

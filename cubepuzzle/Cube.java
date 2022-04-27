@@ -8,7 +8,7 @@ public class Cube extends Constants {
         surfaceColor[0] = COLOR_YELLOW;
         surfaceColor[1] = COLOR_RED   ;
         surfaceColor[2] = COLOR_GREEN ;
-        surfaceColor[3] = COLOR_BROWN ;
+        surfaceColor[3] = COLOR_PINK ;
         surfaceColor[4] = COLOR_BLUE  ;
         surfaceColor[5] = COLOR_ORANGE;
     }

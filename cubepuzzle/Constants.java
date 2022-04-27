@@ -30,5 +30,25 @@ public class Constants {
     public static final int COLOR_BLUE   =  4;
     public static final int COLOR_ORANGE =  5;
     public static final int COLOR_YELLOW =  6;
-    public static final int COLOR_BROWN  =  7;
+    public static final int COLOR_PINK   =  7;
+    public static final int COLOR_GRAY   =  8;
+    public static final int COLOR_CYAN   =  9;
+
+    // constants for math drawing
+    // this constansts need to correspond with the UI constants
+    static final int MATH_MAX_WIDTH = 500;
+    static final int MATH_O_X = 350;
+    static final int MATH_O_Y = 350;
+
+    // UI constants to show the fram
+    static final int UI_WIDTH  = 1000;
+    static final int UI_HEIGHT =  800;
+    static final String UI_TITLE = "Cube Puzzle";
+
+    // Resource constants for Resource.Basic
+    // basic elements of the game
+    static final String RESOURCE_BASIC      = "basic"     ;
+    static final String RESOURCE_NONE       = "none"      ;
+    static final String RESOURCE_KEEPOUT    = "keepout"   ;
+    static final String RESOURCE_COLORCHECK = "colorcheck";
 }
