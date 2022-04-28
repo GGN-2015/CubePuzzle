@@ -99,7 +99,7 @@ class TupleReal {
     }
 }
 
-public class MathTransform extends Constants{
+public class MathTransform implements Constants{
     static int lenX = 5, lenY = 5;
 
     // set the length of a game

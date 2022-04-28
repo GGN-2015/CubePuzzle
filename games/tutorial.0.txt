@@ -1,11 +1,12 @@
-5 7
-0 0
-1 5
-basic.colorcheck.2  basic.colorcheck.2  basic.colorcheck.2  basic.colorcheck.2  basic.colorcheck.2  basic.colorcheck.2  basic.keepout
-basic.colorcheck.4  basic.colorcheck.4  basic.colorcheck.4  basic.colorcheck.4  basic.colorcheck.4  basic.keepout       basic.keepout
-basic.colorcheck.2  basic.colorcheck.2  basic.colorcheck.2  basic.colorcheck.2  basic.keepout       basic.keepout       basic.keepout
-basic.colorcheck.4  basic.colorcheck.4  basic.colorcheck.4  basic.colorcheck.4  basic.colorcheck.4  basic.colorcheck.4  basic.colorcheck.4
-basic.colorcheck.2  basic.colorcheck.2  basic.keepout       basic.keepout       basic.keepout       basic.keepout       basic.keepout
+5 5
+1 1
+3 3
+basic.none  basic.none  basic.none      basic.keepout   basic.none
+basic.none  basic.none  basic.keepout   basic.keepout   basic.none
+basic.none  basic.none  basic.none      basic.none      basic.none
+basic.none  basic.none  basic.none      basic.none      basic.none
+basic.none  basic.none  basic.keepout   basic.none      basic.none
+
 
 Author: GGN_2015
-TIPS: 65472
+TIPS: use WASD to move your cube on the board

@@ -1,9 +1,9 @@
 package cubepuzzle;
 
-public class Constants {
+public interface Constants {
     // animation constants
-    public static final double ANIME_DURATION = 0.6;  // unit: sec
-    public static final double ANIME_FPS      = 24.0; // frames per second
+    public static final double ANIME_DURATION = 0.2;  // unit: sec
+    public static final double ANIME_FPS      = 20.0; // frames per second
     public static final int ANIME_NONE        = 0;    // no animation
     public static final int ANIME_LEFT        = 1;
     public static final int ANIME_RIGHT       = 2;
@@ -80,6 +80,17 @@ public class Constants {
     public static final String RESOURCE_NONE       = "none"      ;
     public static final String RESOURCE_KEEPOUT    = "keepout"   ;
     public static final String RESOURCE_COLORCHECK = "colorcheck";
+
+    // describe the surface of the square
+    public interface SURFACE {
+        // link the surfaces with it's corner id
+        final int[] cubeLeft   = {1, 0, 4, 5};
+        final int[] cubeRight  = {3, 2, 6, 7};
+        final int[] cubeTop    = {1, 3, 7, 5};
+        final int[] cubeBottom = {0, 2, 6, 4};
+        final int[] cubeBack   = {1, 3, 2, 6};
+        final int[] cubeFront  = {5, 7, 6, 4};
+    }
 
 
     // UI constants to show the fram

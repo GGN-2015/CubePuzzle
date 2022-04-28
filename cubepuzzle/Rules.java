@@ -1,6 +1,6 @@
 package cubepuzzle;
 
-public class Rules extends Constants{
+public class Rules implements Constants{
     public static boolean checkPosEnterAvailable(String gridType, Cube myCube) throws Exception {
         gridType = gridType.toLowerCase();
         String[] dirs = gridType.split("\\.", 2);

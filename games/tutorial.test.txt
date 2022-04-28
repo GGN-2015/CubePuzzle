@@ -1,0 +1,19 @@
+11 11
+5 5
+11 11
+
+basic.none  basic.none  basic.none   basic.none   basic.none    basic.none  basic.none  basic.none   basic.none   basic.none   basic.none
+basic.none  basic.none  basic.none   basic.none   basic.none    basic.none  basic.none  basic.none   basic.none   basic.none   basic.none
+basic.none  basic.none  basic.none   basic.none   basic.none    basic.none  basic.none  basic.none   basic.none   basic.none   basic.none
+basic.none  basic.none  basic.none   basic.none   basic.none    basic.none  basic.none  basic.none   basic.none   basic.none   basic.none
+basic.none  basic.none  basic.none   basic.none   basic.none    basic.none  basic.none  basic.none   basic.none   basic.none   basic.none
+basic.none  basic.none  basic.none   basic.none   basic.none    basic.none  basic.none  basic.none   basic.none   basic.none   basic.none
+basic.none  basic.none  basic.none   basic.none   basic.none    basic.none  basic.none  basic.none   basic.none   basic.none   basic.none
+basic.none  basic.none  basic.none   basic.none   basic.none    basic.none  basic.none  basic.none   basic.none   basic.none   basic.none
+basic.none  basic.none  basic.none   basic.none   basic.none    basic.none  basic.none  basic.none   basic.none   basic.none   basic.none
+basic.none  basic.none  basic.none   basic.none   basic.none    basic.none  basic.none  basic.none   basic.none   basic.none   basic.none
+basic.none  basic.none  basic.none   basic.none   basic.none    basic.none  basic.none  basic.none   basic.none   basic.none   basic.none
+
+
+Author: GGN_2015
+TIPS: use WASD to move your cube on the board

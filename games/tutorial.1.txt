@@ -9,4 +9,5 @@ basic.none basic.none basic.keepout basic.none basic.none
 
 
 Author: GGN_2015
-TIPS: use WASD to move your cube on the board
+TIPS: To stand on a red grid
+you need to have red color on the top of the cube

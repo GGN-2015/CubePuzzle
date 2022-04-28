@@ -2,9 +2,6 @@ package cubepuzzle;
 
 import java.awt.Color;
 import java.awt.geom.Path2D;
-
-import javax.swing.JOptionPane;
-
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 
@@ -114,68 +111,35 @@ public class Resources {
     }
 
     // draw a rotating cube
-    public static void drawCubeRotate(Graphics g, Game gameNow, int animeDir, double angle) throws Exception {
+    public static void drawCubeRotate(Graphics g, Game gameNow, AnimationRotate animationRotate, double angle) throws Exception {
         //! you need to rotate based on the old position X, Y
         //! but I can only get the new position
         int bx = gameNow.posX;
         int by = gameNow.posY;
 
-        // link the surfaces with it's corner id
-        int[] cubeLeft   = {1, 0, 4, 5};
-        int[] cubeRight  = {3, 2, 6, 7};
-        int[] cubeTop    = {1, 3, 7, 5};
-        int[] cubeBottom = {0, 2, 6, 4};
-        int[] cubeBack   = {1, 3, 2, 6};
-        int[] cubeFront  = {5, 7, 6, 4};
-
+        
         // combine them into an array (eazy to use)
         int[][] cubeSurfaces = new int[6][4];
-        cubeSurfaces[Constants.CUBE_BACK]   = cubeBack   ;
-        cubeSurfaces[Constants.CUBE_FRONT]  = cubeFront  ;
-        cubeSurfaces[Constants.CUBE_LEFT]   = cubeLeft   ;
-        cubeSurfaces[Constants.CUBE_RIGHT]  = cubeRight  ;
-        cubeSurfaces[Constants.CUBE_TOP]    = cubeTop    ;
-        cubeSurfaces[Constants.CUBE_BOTTOM] = cubeBottom ;
+        cubeSurfaces[Constants.CUBE_BACK]   = Constants.SURFACE.cubeBack   ;
+        cubeSurfaces[Constants.CUBE_FRONT]  = Constants.SURFACE.cubeFront  ;
+        cubeSurfaces[Constants.CUBE_LEFT]   = Constants.SURFACE.cubeLeft   ;
+        cubeSurfaces[Constants.CUBE_RIGHT]  = Constants.SURFACE.cubeRight  ;
+        cubeSurfaces[Constants.CUBE_TOP]    = Constants.SURFACE.cubeTop    ;
+        cubeSurfaces[Constants.CUBE_BOTTOM] = Constants.SURFACE.cubeBottom ;
 
-        int oldx, oldy;
+        // old position of the cube
+        int[] oldxy = animationRotate.getOldxy(bx, by);
+
+        // rotation poll message
+        TupleReal basePoint  = animationRotate.getBasePoint(bx, by);
+        TupleReal rotatePoll = animationRotate.getRotatePoll(bx, by);
+        int[] surfaceShow    = animationRotate.getSurfaceShow();
+
+        //! get the basePoint rand rotationPoll by animation constants
+
+
         // p3d is the non-rotated cube 
-        TupleReal basePoint  = null;
-        TupleReal rotatePoll = null;
-        int[] surfaceShow    = null;
-
-        // get the basePoint rand rotationPoll by animation constants
-        if(animeDir == Constants.ANIME_LEFT) {
-            basePoint   = new TupleReal(bx, by + 1, 0);
-            rotatePoll  = TupleReal.VECX;
-            surfaceShow = new int[] {Constants.CUBE_FRONT, Constants.CUBE_RIGHT, Constants.CUBE_BOTTOM, Constants.CUBE_TOP};
-            oldx = bx;
-            oldy = by + 1;
-        }else
-        if(animeDir == Constants.ANIME_RIGHT) {
-            basePoint   = new TupleReal(bx, by, 0);
-            rotatePoll  = TupleReal.VECX.mul(-1);
-            surfaceShow = new int[] {Constants.CUBE_FRONT, Constants.CUBE_TOP, Constants.CUBE_LEFT, Constants.CUBE_RIGHT};
-            oldx = bx;
-            oldy = by - 1;
-        }else
-        if(animeDir == Constants.ANIME_IN) {
-            basePoint   = new TupleReal(bx + 1, by, 0);
-            rotatePoll  = TupleReal.VECY.mul(-1);
-            surfaceShow = new int[] {Constants.CUBE_FRONT, Constants.CUBE_RIGHT, Constants.CUBE_BOTTOM, Constants.CUBE_TOP};
-            oldx = bx + 1;
-            oldy = by;
-        }else
-        if(animeDir == Constants.ANIME_OUT) {
-            basePoint   = new TupleReal(bx, by, 0);
-            rotatePoll  = TupleReal.VECY;
-            surfaceShow = new int[] {Constants.CUBE_TOP, Constants.CUBE_RIGHT, Constants.CUBE_FRONT, Constants.CUBE_BACK};
-            oldx = bx - 1;
-            oldy = by;
-        }else {
-            throw new Exception("animeDir: " + animeDir + " unknown");
-        }
-
-        TupleReal[] p3d = getTupleRealArrayForCube(oldx, oldy, 0);
+        TupleReal[] p3d = getTupleRealArrayForCube(oldxy[0], oldxy[1], 0);
 
         // draw the four surfaces
         p3d = MathTransform.rotate(p3d, basePoint, rotatePoll, angle);

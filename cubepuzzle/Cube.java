@@ -1,7 +1,7 @@
 package cubepuzzle;
 
 //describe a cube (without position) rolling on the chessboard
-public class Cube extends Constants {
+public class Cube implements Constants {
     int[] surfaceColor;
     public Cube() { // create a cube for a player
         surfaceColor = new int[6];

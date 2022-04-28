@@ -199,4 +199,12 @@ public class Game {
             System.out.println("You Win!");
         }
     }
+
+    public String getInformation() {
+        StringBuilder sb = new StringBuilder();
+        for(int i = 0; i < information.length; i ++) {
+            sb.append(information[i] + "<br>");
+        }
+        return "<html><body>" + sb.toString() + "</body></html>";
+    }
 }
