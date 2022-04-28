@@ -218,18 +218,19 @@ class GameKeyListener extends KeyAdapter {
                     if(animation == Constants.ANIME_OUT)   GameUI.drawPanel.animate(g, new AnimationOut());
                 }
 
+                //! change the text before the dialog
+                if(DrawPanel.gameNow.win()) {
+                    GameUI.stepLabel.setText("You win! StepCnt = " + DrawPanel.gameNow.stepCnt);
+                }else {
+                    GameUI.stepLabel.setText("StepCnt = " + DrawPanel.gameNow.stepCnt);
+                }
+
                 //! this is not good, make sure the dialog is after the animation
                 // this message will only show once
                 if(DrawPanel.gameNow.win()) {
                     JOptionPane.showMessageDialog(null, "You win!");
                     //! hide when the game is win
                     GameUI.getInstance().setVisible(false);
-                }
-
-                if(DrawPanel.gameNow.win()) {
-                    GameUI.stepLabel.setText("You win! StepCnt = " + DrawPanel.gameNow.stepCnt);
-                }else {
-                    GameUI.stepLabel.setText("StepCnt = " + DrawPanel.gameNow.stepCnt);
                 }
             }
         }

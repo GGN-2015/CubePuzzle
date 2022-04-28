@@ -54,6 +54,24 @@ public class Cube implements Constants {
         System.out.println();
     }
 
+    @Override
+    public boolean equals(Object x) {
+        Cube rhs = (Cube)x;
+        for(int i = 0; i < surfaceColor.length; i ++) {
+            if(surfaceColor[i] != rhs.surfaceColor[i]) return false;
+        }
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int ans = 0;
+        for(int i = 0; i < surfaceColor.length; i ++) {
+            ans = ans * 10 + surfaceColor[i];
+        }
+        return ans;
+    }
+
     // this function is only used to debug the class Cube
     public static void main(String[] args) {
         Cube myCube = new Cube();

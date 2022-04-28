@@ -3,8 +3,8 @@
 3 3
 basic.none basic.none basic.none basic.keepout basic.none
 basic.none basic.none basic.keepout basic.keepout basic.none
-basic.none basic.none basic.colorcheck.2 basic.none basic.none
-basic.none basic.none basic.colorcheck.3 basic.none basic.none
+basic.none basic.none basic.colorcheck.5 basic.none basic.none
+basic.none basic.none basic.colorcheck.7 basic.none basic.none
 basic.none basic.none basic.keepout basic.none basic.none
 
 

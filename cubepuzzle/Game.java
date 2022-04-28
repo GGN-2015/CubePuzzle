@@ -222,4 +222,17 @@ public class Game {
         }
         return "<html><body>" + sb.toString() + "</body></html>";
     }
+
+    // deep copy for game object
+    public Game clone() {
+        Game newGame = new Game(lenX, lenY, beginX, beginY, endX, endY);
+        newGame.posX = posX;
+        newGame.posY = posY;
+        newGame.chessboard  = chessboard;
+        newGame.myCube      = myCube;
+        newGame.myLastCube  = myLastCube;
+        newGame.stepCnt     = stepCnt;
+        newGame.information = information;
+        return newGame;
+    }
 }
