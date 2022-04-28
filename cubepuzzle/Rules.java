@@ -27,7 +27,7 @@ public class Rules implements Constants{
             // a certain color is needed to be on the top
             if(gridType.startsWith(RESOURCE_COLORCHECK)) {
                 int colorId = Integer.valueOf(gridType.split("\\.", 2)[1]);
-                return colorId == myCube.surfaceColor[CUBE_TOP];
+                return colorId == myCube.surfaceColor[CUBE_BOTTOM];
             }else {
                 throw new Exception("in Rules.Basic, gridType: " + gridType + " unknown");
             }

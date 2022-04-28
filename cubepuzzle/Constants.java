@@ -2,7 +2,7 @@ package cubepuzzle;
 
 public interface Constants {
     // animation constants
-    public static final double ANIME_DURATION = 0.2;  // unit: sec
+    public static final double ANIME_DURATION = 0.3;  // unit: sec
     public static final double ANIME_FPS      = 20.0; // frames per second
     public static final int ANIME_NONE        = 0;    // no animation
     public static final int ANIME_LEFT        = 1;

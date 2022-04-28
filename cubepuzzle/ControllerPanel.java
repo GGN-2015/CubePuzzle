@@ -29,7 +29,7 @@ public class ControllerPanel extends JFrame {
     // private constructor of ControllerPanel
     private ControllerPanel() {
         Container container = this.getContentPane();
-
+        
         // apperance setting
         container.setLayout(new FlowLayout(FlowLayout.LEFT, Constants.CP_SEPERATE, Constants.CP_SEPERATE));
         container.setBounds(0, 0, Constants.CP_WIDTH, Constants.CP_HEIGHT);

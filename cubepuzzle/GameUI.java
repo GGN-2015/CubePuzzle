@@ -4,7 +4,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-
+import java.awt.BorderLayout;
 import java.awt.Container;
 import java.awt.Graphics;
 import java.awt.Image;
@@ -25,12 +25,17 @@ public class GameUI extends JFrame implements ActionListener {
     static DrawPanel drawPanel = null;
     private static GameUI uiInstance = null;
 
+    static JLabel stepLabel     = new JLabel("");
+    static JLabel msgLabel      = new JLabel("");
+
     private GameUI() {
         Container conPane = getContentPane();
 
         // draw panel setting
         drawPanel = new DrawPanel();
-        conPane.add(drawPanel);
+        conPane.add(stepLabel, BorderLayout.NORTH);
+        conPane.add(msgLabel, BorderLayout.SOUTH);
+        conPane.add(drawPanel, BorderLayout.CENTER);
 
         // create basic UI interface
         this.setSize(Constants.UI_WIDTH, Constants.UI_HEIGHT);
@@ -55,7 +60,7 @@ public class GameUI extends JFrame implements ActionListener {
     // after a new game is set the picture will be repainted
     public void setGame(Game gameNew) {
         drawPanel.setGame(gameNew);
-        MathTransform.setLength(gameNew.lenX, gameNew.lenY);
+        MathTransform.setLength(gameNew.getLenX(), gameNew.getLenY());
     }
 
     // action listener for all the buttons
@@ -99,9 +104,8 @@ public class GameUI extends JFrame implements ActionListener {
 }
 
 class DrawPanel extends JPanel {
-    static Game   gameNow       = null;
-    static JLabel stepLabel     = new JLabel("");
-    static JLabel msgLabel      = new JLabel("");
+    static Game    gameNow   = null;
+    static boolean animating = false;
 
     public DrawPanel() {
         super(true);
@@ -111,13 +115,15 @@ class DrawPanel extends JPanel {
     // which means there many be more than one game on a frame
     public void setGame(Game gameNew) {
         gameNow = gameNew;
-        msgLabel.setText(gameNew.getInformation());
+        GameUI.msgLabel.setText(gameNew.getInformation());
+        GameUI.stepLabel.setText("StepCnt = " + DrawPanel.gameNow.stepCnt);
 
         //? make sure that the full graph is able to be painted on the screen
-        MathTransform.setLength(gameNew.lenX, gameNew.lenY);
-        this.add(stepLabel);
-        this.add(msgLabel);
+        MathTransform.setLength(gameNew.getLenX(), gameNew.getLenY());
     }
+
+    private Image iBuffer = null;
+    private Graphics gBuffer = null;
 
     // Paint Algorithm is based on Resources.java
     // Resources.java can be costomized by the user
@@ -125,26 +131,38 @@ class DrawPanel extends JPanel {
     public void paint(Graphics g) {
         if(gameNow != null) {
             try {
-                g.clearRect(0, 0, this.getWidth(), this.getHeight());
+                if (iBuffer == null) {
+                    iBuffer = createImage(this.getSize().width, this.getSize().height);
+                    gBuffer = iBuffer.getGraphics();
+                }
+                gBuffer.setColor(getBackground());
+                gBuffer.fillRect(0, 0, this.getSize().width, this.getSize().height);
+                super.paint(gBuffer);
 
-                Resources.drawChessboard(g, gameNow);
-                Resources.drawWin       (g, gameNow);
-                Resources.drawCube      (g, gameNow);
+                Resources.drawChessboard(gBuffer, gameNow);
+                Resources.drawWin       (gBuffer, gameNow);
+                Resources.drawCube      (gBuffer, gameNow);
             } catch (Exception e) {
                 // error of resource pack may occur
                 e.printStackTrace();
             }
-            if(gameNow.win()) {
-                stepLabel.setText("You win! StepCnt = " + DrawPanel.gameNow.stepCnt);
-            }else {
-                stepLabel.setText("StepCnt = " + DrawPanel.gameNow.stepCnt);
-            }
+            g.drawImage(iBuffer, 0, 0, this);
+        }
+    }
+
+    @Override
+    public void update(Graphics g) {
+        if(!DrawPanel.animating) {
+            g.clearRect(0, 0, this.getWidth(), this.getHeight());
+            paint(g);
         }
     }
 
     // create an animation
     // and show win message and quit
     public void animate(Graphics g, Animation animation) throws Exception {
+        animating = true;
+
         int frameCnt = (int)(Constants.ANIME_DURATION * Constants.ANIME_FPS);
         double frameLen = 1.0 / Constants.ANIME_FPS; // time for one frame
         for(int i = 0; i < frameCnt; i ++) {
@@ -152,6 +170,8 @@ class DrawPanel extends JPanel {
             Thread.sleep((long)(frameLen * 1000 + 0.5));; // wait this long and make next paint
         }
         this.repaint();
+
+        animating = false;
     }
 }
 
@@ -160,7 +180,7 @@ class GameKeyListener extends KeyAdapter {
 		char charA=Character.toLowerCase(e.getKeyChar());
         try{
             // only when you are not win can you move by the keyboard
-            if(!DrawPanel.gameNow.win()) {
+            if(!DrawPanel.gameNow.win() && !DrawPanel.animating) {
                 int animation = Constants.ANIME_NONE;
 
                 // -------------------- KEY BOARD ACTION -------------------- //
@@ -204,6 +224,12 @@ class GameKeyListener extends KeyAdapter {
                     JOptionPane.showMessageDialog(null, "You win!");
                     //! hide when the game is win
                     GameUI.getInstance().setVisible(false);
+                }
+
+                if(DrawPanel.gameNow.win()) {
+                    GameUI.stepLabel.setText("You win! StepCnt = " + DrawPanel.gameNow.stepCnt);
+                }else {
+                    GameUI.stepLabel.setText("StepCnt = " + DrawPanel.gameNow.stepCnt);
                 }
             }
         }

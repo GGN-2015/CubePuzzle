@@ -6,14 +6,29 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Game {
-    public final int lenX, lenY, beginX, beginY, endX, endY;
+    private int lenX, lenY, beginX, beginY, endX, endY;
     int posX, posY, stepCnt = 0;
     String chessboard[][];
     public String[] information;
 
     public Cube myCube;
     public Cube myLastCube;
+    
+    // getter, setter for private properties
+    public int getLenX() {
+        return lenX;
+    }
+    public int getLenY() {
+        return lenY;
+    }
+    public int getEndX() {
+        return endX;
+    }
+    public int getEndY() {
+        return endY;
+    }
 
+    // create an empty game
     public Game(int lenX, int lenY, int beginX, int beginY, int endX, int endY) {
         this.lenX   = lenX;
         this.lenY   = lenY;

@@ -69,9 +69,9 @@ public class Resources {
     // draw the ground of the game
     public static void drawChessboard(Graphics g2d, Game gameNow) throws Exception {
         int extraWidth = Constants.CHESSBOARD_EXTRA_WIDTH;
-        for(int i = -extraWidth; i <= gameNow.lenX + extraWidth - 1; i ++) {
-            for(int j = -extraWidth; j <= gameNow.lenY + extraWidth - 1; j ++) {
-                if(0 <= i && i < gameNow.lenX && 0 <= j && j < gameNow.lenY) {
+        for(int i = -extraWidth; i <= gameNow.getLenX() + extraWidth - 1; i ++) {
+            for(int j = -extraWidth; j <= gameNow.getLenY() + extraWidth - 1; j ++) {
+                if(0 <= i && i < gameNow.getLenX() && 0 <= j && j < gameNow.getLenY()) {
                     drawChessboardGrid(g2d, gameNow.chessboard[i][j], i, j);
                 }else {
                     //? we draw the chessboard edge to mute the noise when making animation
@@ -83,7 +83,7 @@ public class Resources {
     }
 
     public static void drawWin(Graphics g, Game gameNow) {
-        PairInt[] p2dArr = Basic.getPairIntArr(gameNow.endX, gameNow.endY);
+        PairInt[] p2dArr = Basic.getPairIntArr(gameNow.getEndX(), gameNow.getEndY());
         Basic.drawLineShape((Graphics2D)g, p2dArr, Constants.COLOR_CYAN);
         setColor(g, Constants.COLOR_CYAN);
         Basic.drawLine((Graphics2D)g, p2dArr[0], p2dArr[2]);
