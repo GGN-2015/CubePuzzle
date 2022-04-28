@@ -22,6 +22,15 @@ public class Cube extends Constants {
         surfaceColor[s4] = tmp;
     }
 
+    @Override // deep copy a cube
+    public Cube clone() {
+        Cube cubeTmp = new Cube();
+        for(int i = 0; i < surfaceColor.length; i ++) {
+            cubeTmp.surfaceColor[i] = surfaceColor[i];
+        }
+        return cubeTmp;
+    }
+
     // four type of cube rolling
     public void rollLeft() {
         surfaceShift(CUBE_LEFT, CUBE_TOP, CUBE_RIGHT, CUBE_BOTTOM);

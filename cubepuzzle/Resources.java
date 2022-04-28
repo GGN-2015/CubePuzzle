@@ -2,6 +2,9 @@ package cubepuzzle;
 
 import java.awt.Color;
 import java.awt.geom.Path2D;
+
+import javax.swing.JOptionPane;
+
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 
@@ -24,17 +27,28 @@ public class Resources {
         }
     }
 
-    public static PairInt[] getPairIntArrayForCube(int bx, int by, int bz) {
+    public static void drawChessboardEdge(Graphics g2d, int posX, int posY) throws Exception {
+        //! do not add name Constants.RESOURCE_BASIC because you are using basic
+        Basic.drawChessboardGridWithColor((Graphics2D)g2d, posX, posY, Constants.COLOR_GRAY);
+    }
+
+    public static TupleReal[] getTupleRealArrayForCube(int bx, int by, int bz) {
         TupleReal[] p3d = new TupleReal[8];
-        PairInt[]   p2d = new PairInt[8];
-        for(int i = 0; i < p2d.length; i ++) {
+        for(int i = 0; i < p3d.length; i ++) {
             double nx = bx + ((i >> 2) & 1);
             double ny = by + ((i >> 1) & 1);
             double nz = bz + ((i >> 0) & 1);
             p3d[i] = new TupleReal(nx, ny, nz);
-            p2d[i] = MathTransform.transform(p3d[i]);
         }
-        return p2d;
+        //! debug rotate only
+        // p3d = MathTransform.rotate(p3d, TupleReal.ZERO, TupleReal.VECX, Math.PI / 6);
+        return p3d;
+    }
+
+    // get p2d array for p3d array
+    public static PairInt[] getPairIntArrayForCube(int bx, int by, int bz) {
+        TupleReal[] p3d = getTupleRealArrayForCube(bx, by, bz);
+        return MathTransform.getPairIntArrayForTupleRealArray(p3d);
     }
 
     public static void drawCube(Graphics g2d, Game gameNow) {
@@ -48,13 +62,25 @@ public class Resources {
         Basic.drawLineShape  ((Graphics2D)g2d, sufaceTop  , Constants.COLOR_BLACK);
         Basic.drawFilledShape((Graphics2D)g2d, sufaceRight, gameNow.myCube.surfaceColor[Constants.CUBE_RIGHT]);
         Basic.drawLineShape  ((Graphics2D)g2d, sufaceRight, Constants.COLOR_BLACK);
+
+        //! debug only
+        // Basic.drawLineShape  ((Graphics2D)g2d, sufaceFront, Constants.COLOR_BLACK);
+        // Basic.drawLineShape  ((Graphics2D)g2d, sufaceTop  , Constants.COLOR_BLACK);
+        // Basic.drawLineShape  ((Graphics2D)g2d, sufaceRight, Constants.COLOR_BLACK);
     }
 
     // draw the ground of the game
     public static void drawChessboard(Graphics g2d, Game gameNow) throws Exception {
-        for(int i = 0; i < gameNow.lenX; i ++) {
-            for(int j = 0; j < gameNow.lenY; j ++) {
-                drawChessboardGrid(g2d, gameNow.chessboard[i][j], i, j);
+        int extraWidth = Constants.CHESSBOARD_EXTRA_WIDTH;
+        for(int i = -extraWidth; i <= gameNow.lenX + extraWidth - 1; i ++) {
+            for(int j = -extraWidth; j <= gameNow.lenY + extraWidth - 1; j ++) {
+                if(0 <= i && i < gameNow.lenX && 0 <= j && j < gameNow.lenY) {
+                    drawChessboardGrid(g2d, gameNow.chessboard[i][j], i, j);
+                }else {
+                    //? we draw the chessboard edge to mute the noise when making animation
+                    //? it is a must and feature
+                    drawChessboardEdge(g2d, i, j);
+                }
             }
         }
     }
@@ -84,6 +110,85 @@ public class Resources {
             System.err.println("\tcolorName " + colorId + " not found.");
             // color not found: return color BLACK as result
             g.setColor(Color.BLACK);
+        }
+    }
+
+    // draw a rotating cube
+    public static void drawCubeRotate(Graphics g, Game gameNow, int animeDir, double angle) throws Exception {
+        //! you need to rotate based on the old position X, Y
+        //! but I can only get the new position
+        int bx = gameNow.posX;
+        int by = gameNow.posY;
+
+        // link the surfaces with it's corner id
+        int[] cubeLeft   = {1, 0, 4, 5};
+        int[] cubeRight  = {3, 2, 6, 7};
+        int[] cubeTop    = {1, 3, 7, 5};
+        int[] cubeBottom = {0, 2, 6, 4};
+        int[] cubeBack   = {1, 3, 2, 6};
+        int[] cubeFront  = {5, 7, 6, 4};
+
+        // combine them into an array (eazy to use)
+        int[][] cubeSurfaces = new int[6][4];
+        cubeSurfaces[Constants.CUBE_BACK]   = cubeBack   ;
+        cubeSurfaces[Constants.CUBE_FRONT]  = cubeFront  ;
+        cubeSurfaces[Constants.CUBE_LEFT]   = cubeLeft   ;
+        cubeSurfaces[Constants.CUBE_RIGHT]  = cubeRight  ;
+        cubeSurfaces[Constants.CUBE_TOP]    = cubeTop    ;
+        cubeSurfaces[Constants.CUBE_BOTTOM] = cubeBottom ;
+
+        int oldx, oldy;
+        // p3d is the non-rotated cube 
+        TupleReal basePoint  = null;
+        TupleReal rotatePoll = null;
+        int[] surfaceShow    = null;
+
+        // get the basePoint rand rotationPoll by animation constants
+        if(animeDir == Constants.ANIME_LEFT) {
+            basePoint   = new TupleReal(bx, by + 1, 0);
+            rotatePoll  = TupleReal.VECX;
+            surfaceShow = new int[] {Constants.CUBE_FRONT, Constants.CUBE_RIGHT, Constants.CUBE_BOTTOM, Constants.CUBE_TOP};
+            oldx = bx;
+            oldy = by + 1;
+        }else
+        if(animeDir == Constants.ANIME_RIGHT) {
+            basePoint   = new TupleReal(bx, by, 0);
+            rotatePoll  = TupleReal.VECX.mul(-1);
+            surfaceShow = new int[] {Constants.CUBE_FRONT, Constants.CUBE_TOP, Constants.CUBE_LEFT, Constants.CUBE_RIGHT};
+            oldx = bx;
+            oldy = by - 1;
+        }else
+        if(animeDir == Constants.ANIME_IN) {
+            basePoint   = new TupleReal(bx + 1, by, 0);
+            rotatePoll  = TupleReal.VECY.mul(-1);
+            surfaceShow = new int[] {Constants.CUBE_FRONT, Constants.CUBE_RIGHT, Constants.CUBE_BOTTOM, Constants.CUBE_TOP};
+            oldx = bx + 1;
+            oldy = by;
+        }else
+        if(animeDir == Constants.ANIME_OUT) {
+            basePoint   = new TupleReal(bx, by, 0);
+            rotatePoll  = TupleReal.VECY;
+            surfaceShow = new int[] {Constants.CUBE_TOP, Constants.CUBE_RIGHT, Constants.CUBE_FRONT, Constants.CUBE_BACK};
+            oldx = bx - 1;
+            oldy = by;
+        }else {
+            throw new Exception("animeDir: " + animeDir + " unknown");
+        }
+
+        TupleReal[] p3d = getTupleRealArrayForCube(oldx, oldy, 0);
+
+        // draw the four surfaces
+        p3d = MathTransform.rotate(p3d, basePoint, rotatePoll, angle);
+        for(int i = surfaceShow.length - 1; i >= 0; i --) {
+            int surfaceId  = surfaceShow[i];
+            int colorId   = gameNow.myLastCube.surfaceColor[surfaceId];
+            int[] corners = cubeSurfaces[surfaceId];
+            PairInt[] p2d = new PairInt[corners.length];
+            for(int j = 0; j < corners.length; j ++) {
+                p2d[j] = MathTransform.transform(p3d[corners[j]]);
+            }
+            Basic.drawFilledShape((Graphics2D)g, p2d, colorId);
+            Basic.drawLineShape((Graphics2D)g, p2d, Constants.COLOR_BLACK);
         }
     }
 

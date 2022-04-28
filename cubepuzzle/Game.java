@@ -12,6 +12,7 @@ public class Game {
     public String[] information;
 
     public Cube myCube;
+    public Cube myLastCube;
 
     public Game(int lenX, int lenY, int beginX, int beginY, int endX, int endY) {
         this.lenX   = lenX;
@@ -20,7 +21,8 @@ public class Game {
         this.beginY = beginY;
         this.endX   = endX;
         this.endY   = endY;
-        this.myCube = new Cube();
+        this.myCube     = new Cube();
+        this.myLastCube = new Cube();
         chessboard = new String[lenX][lenY];
         for(int i = 0; i < lenX; i ++) {
             for(int j = 0; j < lenY; j ++) {
@@ -61,7 +63,17 @@ public class Game {
         fin.close();
         posX = beginX;
         posY = beginY;
-        myCube = new Cube();
+        myCube     = new Cube();
+        myLastCube = new Cube();
+    }
+
+    // when you want to restart the game from the beginning
+    public void restart() {
+        posX = beginX; 
+        posY = beginY;
+        stepCnt = 0;
+        myCube     = new Cube(); // remember to get a new cube
+        myLastCube = new Cube();
     }
 
     // when you come to endX, endY and step > 0
@@ -79,7 +91,8 @@ public class Game {
 
     // there are four directions to move the cube
     // basic idea: move in ; check ; move out on failure
-    public void moveLeft() throws Exception {
+    public boolean moveLeft() throws Exception {
+        myLastCube = myCube.clone();
         if(posY > 0) {
             stepCnt ++;
             posY --;
@@ -88,10 +101,14 @@ public class Game {
                 stepCnt --;
                 posY ++;
                 myCube.rollRight();
+                return false;
             }
+            return true;
         }
+        return false;
     }
-    public void moveRight() throws Exception {
+    public boolean moveRight() throws Exception {
+        myLastCube = myCube.clone();
         if(posY < lenY - 1) {
             stepCnt ++;
             posY ++;
@@ -100,10 +117,14 @@ public class Game {
                 stepCnt --;
                 posY --;
                 myCube.rollLeft();
+                return false;
             }
+            return true;
         }
+        return false;
     }
-    public void moveIn() throws Exception {
+    public boolean moveIn() throws Exception {
+        myLastCube = myCube.clone();
         if(posX > 0) {
             stepCnt ++;
             posX --;
@@ -112,10 +133,14 @@ public class Game {
                 stepCnt --;
                 posX ++;
                 myCube.rollOut();
+                return false;
             }
+            return true;
         }
+        return false;
     }
-    public void moveOut() throws Exception {
+    public boolean moveOut() throws Exception {
+        myLastCube = myCube.clone();
         if(posX < lenX - 1) {
             stepCnt ++;
             posX ++;
@@ -124,8 +149,11 @@ public class Game {
                 stepCnt --;
                 posX --;
                 myCube.rollIn();
+                return false;
             }
+            return true;
         }
+        return false;
     }
 
     // only used to debug a game
