@@ -10,3 +10,4 @@ basic.none  basic.none  basic.keepout   basic.none      basic.none
 
 Author: GGN_2015
 TIPS: use WASD to move your cube on the board
+use '[' and ']' to change the view point

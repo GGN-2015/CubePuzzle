@@ -21,4 +21,12 @@ public interface Utils {
         cubeSurfaces[Constants.CUBE_BOTTOM] = Constants.SURFACE.cubeBottom ;
         return cubeSurfaces;
     }
+
+    public static double getOx() {
+        return Constants.UI_WIDTH / 2;
+    }
+
+    public static double getOy() {
+        return Constants.UI_HEIGHT / 2;
+    }
 }

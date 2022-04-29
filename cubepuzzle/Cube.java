@@ -6,11 +6,11 @@ public class Cube implements Constants {
     public Cube() { // create a cube for a player
         surfaceColor = new int[6];
         surfaceColor[0] = COLOR_YELLOW;
-        surfaceColor[1] = COLOR_RED   ;
+        surfaceColor[1] = COLOR_ORANGE;
         surfaceColor[2] = COLOR_GREEN ;
-        surfaceColor[3] = COLOR_PINK ;
+        surfaceColor[3] = COLOR_PINK  ;
         surfaceColor[4] = COLOR_BLUE  ;
-        surfaceColor[5] = COLOR_ORANGE;
+        surfaceColor[5] = COLOR_RED   ;
     }
 
     // this private method is used to 'roll the cube'

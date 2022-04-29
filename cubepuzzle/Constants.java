@@ -3,7 +3,7 @@ package cubepuzzle;
 public interface Constants {
     // animation constants
     public static final double ANIME_DURATION = 0.3;  // unit: sec
-    public static final double ANIME_FPS      = 20.0; // frames per second
+    public static final double ANIME_FPS      = 15.0; // frames per second
     public static final int ANIME_NONE        = 0;    // no animation
     public static final int ANIME_LEFT        = 1;
     public static final int ANIME_RIGHT       = 2;
@@ -42,10 +42,10 @@ public interface Constants {
     // define the 6 surfaces of a cube
     // xface, yface, zface are the three faces that can be seen on the screen
     public static final int CUBE_X_FACE = 4;
-    public static final int CUBE_X_BACK = 5;
+    public static final int CUBE_X_BACK = 1;
     public static final int CUBE_Y_FACE = 2;
     public static final int CUBE_Y_BACK = 0;
-    public static final int CUBE_Z_FACE = 1;
+    public static final int CUBE_Z_FACE = 5;
     public static final int CUBE_Z_BACK = 3;
     
 
@@ -67,11 +67,9 @@ public interface Constants {
 
     // constants for math drawing
     // this constansts need to correspond with the UI constants
-    public static final int MATH_MAX_WIDTH = 1000;
-    public static final int MATH_O_X = 175;
-    public static final int MATH_O_Y = 100;
+    public static final int MATH_MAX_WIDTH = 2000;
     public static final double MATH_EPS = 1e-6;
-    public static final int MATH_RNDCNT = 10;
+    public static final int MATH_RNDCNT = 20;
 
 
     // Resource constants for Resource.Basic
@@ -95,6 +93,6 @@ public interface Constants {
 
     // UI constants to show the fram
     public static final int UI_WIDTH  = 1000;
-    public static final int UI_HEIGHT =  600;
+    public static final int UI_HEIGHT =  1000;
     public static final String UI_TITLE = "Cube Puzzle";
 }

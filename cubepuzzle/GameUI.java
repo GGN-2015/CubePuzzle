@@ -208,6 +208,15 @@ class GameKeyListener extends KeyAdapter {
                         animation = Constants.ANIME_OUT;
                     }
                 }
+                if(charA == '[') {
+                    MathTransform.rotateWatchPoint(- Math.PI / 6);
+                }
+                if(charA == ']') {
+                    MathTransform.rotateWatchPoint(Math.PI / 6);
+                }
+                if(charA == 'm') {
+                    MathTransform.setLength(DrawPanel.gameNow.getLenX(), DrawPanel.gameNow.getLenY());
+                }
 
                 // -------------------- ANIMATION PLAYER -------------------- //
                 if(animation != Constants.ANIME_NONE) {

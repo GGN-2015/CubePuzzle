@@ -125,16 +125,64 @@ class Surface {
 public class MathTransform implements Constants{
     static int lenX = 5, lenY = 5;
 
+    // watch line is the norm vec for the watch surface
+    protected static TupleReal watchPoint = new TupleReal(10, 5, 10);
+
+    public static TupleReal getMidPoint() {
+        return new TupleReal(0.5 * lenX, 0.5 * lenY, 0);
+    }
+
+    public static TupleReal getWatchLine() {
+        return getMidPoint().sub(watchPoint).unit().mul(-1);
+    }
+
     // set the length of a game
     static void setLength(int lenX, int lenY) {
         MathTransform.lenX = lenX;
         MathTransform.lenY = lenY;
+
+        //! need argument here
+        watchPoint = new TupleReal(lenX + 1, 0.5 * lenY, 0.8 * Math.max(lenX, lenY) + 1);
+    }
+
+    // set the watch point
+    static void setWatchPoint(TupleReal newWatchPoint) {
+        watchPoint = newWatchPoint;
+    }
+
+    static void rotateWatchPoint(double theta) {
+        watchPoint = rotate(watchPoint, getMidPoint(), TupleReal.VECZ, theta);
     }
 
     // basicLength is the count of pixel for len 1
     static int getBasicLength() {
-        int len = lenX > lenY ? lenX : lenY;
-        return (int)(1.0 * MATH_MAX_WIDTH / len + 0.5);
+        TupleReal[] corners = new TupleReal[4];
+        for(int i = 0; i < 4; i ++) {
+            boolean dx = ((i >> 1) & 1) != 0; 
+            boolean dy = ((i >> 0) & 1) != 0;
+            double x = dx ? lenX : 0;
+            double y = dy ? lenY : 0;
+            corners[i] = new TupleReal(x, y, 0);
+        }
+        PairReal[] p2d = new PairReal[4];
+        for(int i = 0; i < 4; i ++) {
+            try {
+                p2d[i] = getPositionOnWatchScreen(corners[i]);
+            } catch (Exception e) {
+                p2d[i] = new PairReal(0, 0);
+                e.printStackTrace();
+            }
+        }
+        double minX = p2d[0].x, minY = p2d[0].y, maxX = p2d[0].x, maxY = p2d[0].y;
+        for(int i = 1; i < 4; i ++) {
+            minX = Math.min(minX, p2d[i].x);
+            minY = Math.min(minY, p2d[i].y);
+            maxX = Math.max(maxX, p2d[i].x);
+            maxY = Math.max(maxY, p2d[i].y);
+        }
+        int basicLenX = (int)(0.8 * UI_WIDTH  / (maxX - minX));
+        int basicLenY = (int)(0.8 * UI_HEIGHT / (maxY - minY));
+        return basicLenX < basicLenY ? basicLenX : basicLenY;
     }
 
     // oblique secondary auxiliary drawing (side edge)
@@ -191,30 +239,26 @@ public class MathTransform implements Constants{
         return p2d;
     }
 
-    // watch line is the norm vec for the watch surface
-    protected static TupleReal watchPoint = new TupleReal(10, 5, 10);
-    protected static TupleReal watchLine  = new TupleReal(2, 1, 2);
-
     // get the center point on the watchSurface
     public static TupleReal getWatchSurfacePoint() {
-        return watchPoint.sub(watchLine);
+        return watchPoint.sub(getWatchLine());
     }
 
     // get the Z axis for the watch surface
     public static TupleReal getWatchSurfaceZ() {
-        return watchLine.unit();
+        return getWatchLine().unit();
     }
 
     // get the Y axis for the watch surface
     public static TupleReal getWatchSurfaceY() {
-        double t = TupleReal.VECZ.dot(watchLine) / watchLine.dot(watchLine);
-        return TupleReal.VECZ.sub(watchLine.mul(t)).unit();
+        double t = TupleReal.VECZ.dot(getWatchLine()) / getWatchLine().dot(getWatchLine());
+        return TupleReal.VECZ.sub(getWatchLine().mul(t)).unit();
     }
 
     // get the X axis for the watch surface
     public static TupleReal getWatchSurfaceX() {
         TupleReal axisY = getWatchSurfaceY();
-        TupleReal axisZ = watchLine.unit();
+        TupleReal axisZ = getWatchLine().unit();
         return axisY.cross(axisZ);
     }
 
@@ -303,13 +347,9 @@ public class MathTransform implements Constants{
                 if(i == j) continue; // i != j
                 if(hidePoints(getMidPointList(surfaceArr[i].toArray(), MATH_RNDCNT), surfaceArr[j].toArray())) {
                     boolArr[i] = true;
-
-                    //! debug
-                    //System.out.println(j + " hide " + i);
                 }
             }
         }
-        System.out.println();
         return boolArr;
     }
 
@@ -324,20 +364,23 @@ public class MathTransform implements Constants{
 
     //// transform a pos3d to pos2d
     // this is the older algorithm for point transfomation
+    @Deprecated
     public static PairInt transformOld(TupleReal pos3d) {
         int LENGTH     = getBasicLength();
         int SUB_LENGTH = getSubBasicLength();
         PairReal VECTOR_Y = new PairReal(LENGTH, 0);
         PairReal VECTOR_Z = new PairReal(0, -LENGTH);
         PairReal VECTOR_X = new PairReal(-SUB_LENGTH, SUB_LENGTH);
-        PairReal VECTOR_O = new PairReal(MATH_O_X, MATH_O_Y);
+        PairReal VECTOR_O = new PairReal(Utils.getOx(), Utils.getOy());
         return new PairInt(VECTOR_O.add(VECTOR_X.mul(pos3d.x).add(VECTOR_Y.mul(pos3d.y)).add(VECTOR_Z.mul(pos3d.z))));
     }
 
     // transform a pos3d to pos2d new
     public static PairInt transform(TupleReal pos3d) throws Exception {
         PairReal newPos = getPositionOnWatchScreen(pos3d).mul(getBasicLength());
-        return new PairInt((int)(newPos.x + MATH_O_X + 0.5), (int)(MATH_O_Y - newPos.y + 0.5));
+        PairReal VECTOR_O = new PairReal(Utils.getOx(), - Utils.getOy());
+        PairReal vtmp = VECTOR_O.add(newPos);
+        return new PairInt((int)vtmp.x, - (int)vtmp.y - 150);
     }
 
     public static void main(String[] args) {
