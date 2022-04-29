@@ -5,6 +5,7 @@ import java.awt.geom.Path2D;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 
+
 public class Resources {
     public static void drawChessboardGrid(Graphics g2d, String gridName, int posX, int posY) throws Exception {
         if(gridName == null) {
@@ -48,7 +49,7 @@ public class Resources {
         return MathTransform.getPairIntArrayForTupleRealArray(p3d);
     }
 
-    public static void drawCube(Graphics g2d, Game gameNow) {
+    public static void drawCubeOld(Graphics g2d, Game gameNow) {
         PairInt[] cubeCorners = getPairIntArrayForCube(gameNow.posX, gameNow.posY, 0);
         PairInt[] sufaceFront = {cubeCorners[5], cubeCorners[4], cubeCorners[6], cubeCorners[7]};
         PairInt[] sufaceTop   = {cubeCorners[5], cubeCorners[7], cubeCorners[3], cubeCorners[1]};
@@ -64,6 +65,32 @@ public class Resources {
         // Basic.drawLineShape  ((Graphics2D)g2d, sufaceFront, Constants.COLOR_BLACK);
         // Basic.drawLineShape  ((Graphics2D)g2d, sufaceTop  , Constants.COLOR_BLACK);
         // Basic.drawLineShape  ((Graphics2D)g2d, sufaceRight, Constants.COLOR_BLACK);
+    }
+
+    public static void drawCube(Graphics g2d, Game gameNow) {
+        TupleReal[] p3d = getTupleRealArrayForCube(gameNow.posX, gameNow.posY, 0);
+        int[][] cubeSurfaces = Utils.getCubeSurfaces();
+
+        //! need to change 
+        Surface[] surfaceArr = new Surface[6];
+
+        // for every direction
+        for(int dirId: new int[] {Constants.CUBE_BACK, Constants.CUBE_FRONT, Constants.CUBE_BOTTOM, Constants.CUBE_TOP ,Constants.CUBE_LEFT, Constants.CUBE_RIGHT}) {
+            surfaceArr[dirId] = new Surface();
+            for(int j = 0; j < cubeSurfaces[dirId].length; j ++) {
+                surfaceArr[dirId].add(p3d[cubeSurfaces[dirId][j]]);
+            }
+        }
+
+        boolean[] isHide = MathTransform.checkHide(surfaceArr);
+        for(int i = 0; i < 6; i ++) {
+            if(!isHide[i]) {
+                int colorId = gameNow.myCube.surfaceColor[i]; // mycube not mylastcube
+                PairInt[] p2d = MathTransform.getPairIntArrayForTupleRealArray(surfaceArr[i].toArray());
+                Basic.drawFilledShape((Graphics2D)g2d, p2d, colorId);
+                Basic.drawLineShape((Graphics2D)g2d, p2d, Constants.COLOR_BLACK);
+            }
+        }
     }
 
     // draw the ground of the game
@@ -119,13 +146,7 @@ public class Resources {
 
         
         // combine them into an array (eazy to use)
-        int[][] cubeSurfaces = new int[6][4];
-        cubeSurfaces[Constants.CUBE_BACK]   = Constants.SURFACE.cubeBack   ;
-        cubeSurfaces[Constants.CUBE_FRONT]  = Constants.SURFACE.cubeFront  ;
-        cubeSurfaces[Constants.CUBE_LEFT]   = Constants.SURFACE.cubeLeft   ;
-        cubeSurfaces[Constants.CUBE_RIGHT]  = Constants.SURFACE.cubeRight  ;
-        cubeSurfaces[Constants.CUBE_TOP]    = Constants.SURFACE.cubeTop    ;
-        cubeSurfaces[Constants.CUBE_BOTTOM] = Constants.SURFACE.cubeBottom ;
+        int[][] cubeSurfaces = Utils.getCubeSurfaces();
 
         // old position of the cube
         int[] oldxy = animationRotate.getOldxy(bx, by);
@@ -133,26 +154,33 @@ public class Resources {
         // rotation poll message
         TupleReal basePoint  = animationRotate.getBasePoint(bx, by);
         TupleReal rotatePoll = animationRotate.getRotatePoll(bx, by);
-        int[] surfaceShow    = animationRotate.getSurfaceShow();
+        //! int[] surfaceShow    = animationRotate.getSurfaceShow();
 
         //! get the basePoint rand rotationPoll by animation constants
-
-
         // p3d is the non-rotated cube 
         TupleReal[] p3d = getTupleRealArrayForCube(oldxy[0], oldxy[1], 0);
 
         // draw the four surfaces
         p3d = MathTransform.rotate(p3d, basePoint, rotatePoll, angle);
-        for(int i = surfaceShow.length - 1; i >= 0; i --) {
-            int surfaceId  = surfaceShow[i];
-            int colorId   = gameNow.myLastCube.surfaceColor[surfaceId];
-            int[] corners = cubeSurfaces[surfaceId];
-            PairInt[] p2d = new PairInt[corners.length];
-            for(int j = 0; j < corners.length; j ++) {
-                p2d[j] = MathTransform.transform(p3d[corners[j]]);
+
+        Surface[] surfaceArr = new Surface[6];
+
+        // for every direction
+        for(int dirId: new int[] {Constants.CUBE_BACK, Constants.CUBE_FRONT, Constants.CUBE_BOTTOM, Constants.CUBE_TOP ,Constants.CUBE_LEFT, Constants.CUBE_RIGHT}) {
+            surfaceArr[dirId] = new Surface();
+            for(int j = 0; j < cubeSurfaces[dirId].length; j ++) {
+                surfaceArr[dirId].add(p3d[cubeSurfaces[dirId][j]]);
             }
-            Basic.drawFilledShape((Graphics2D)g, p2d, colorId);
-            Basic.drawLineShape((Graphics2D)g, p2d, Constants.COLOR_BLACK);
+        }
+
+        boolean[] isHide = MathTransform.checkHide(surfaceArr);
+        for(int i = 0; i < 6; i ++) {
+            if(!isHide[i]) {
+                int colorId = gameNow.myLastCube.surfaceColor[i];
+                PairInt[] p2d = MathTransform.getPairIntArrayForTupleRealArray(surfaceArr[i].toArray());
+                Basic.drawFilledShape((Graphics2D)g, p2d, colorId);
+                Basic.drawLineShape((Graphics2D)g, p2d, Constants.COLOR_BLACK);
+            }
         }
     }
 
@@ -198,7 +226,12 @@ public class Resources {
             for(int v = 0; v < p2d.length; v ++) {
                 int dirX = (v >> 1) & 1;
                 int dirY = (v >> 0) & 1;
-                p2d[v] = MathTransform.transform(new TupleReal(posX + dirX, posY + dirY, 0));
+                try {
+                    p2d[v] = MathTransform.transform(new TupleReal(posX + dirX, posY + dirY, 0));
+                }
+                catch(Exception exp) {
+                    exp.printStackTrace();
+                }
             }
             PairInt[] p2dArr = {p2d[0], p2d[2], p2d[3], p2d[1]};
             return p2dArr;

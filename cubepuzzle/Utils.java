@@ -10,4 +10,15 @@ public interface Utils {
             return "NOTDIR";
         }
     }
+
+    public static int[][] getCubeSurfaces() {
+        int[][] cubeSurfaces = new int[6][4];
+        cubeSurfaces[Constants.CUBE_BACK]   = Constants.SURFACE.cubeBack   ;
+        cubeSurfaces[Constants.CUBE_FRONT]  = Constants.SURFACE.cubeFront  ;
+        cubeSurfaces[Constants.CUBE_LEFT]   = Constants.SURFACE.cubeLeft   ;
+        cubeSurfaces[Constants.CUBE_RIGHT]  = Constants.SURFACE.cubeRight  ;
+        cubeSurfaces[Constants.CUBE_TOP]    = Constants.SURFACE.cubeTop    ;
+        cubeSurfaces[Constants.CUBE_BOTTOM] = Constants.SURFACE.cubeBottom ;
+        return cubeSurfaces;
+    }
 }

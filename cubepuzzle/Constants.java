@@ -15,9 +15,8 @@ public interface Constants {
     public static final String BUTTON_RESTART    = "Restart";
     public static final String BUTTON_RUNCOMMAND = "Run Command";
 
-
     // chessboard arguments
-    public static final int CHESSBOARD_EXTRA_WIDTH = 4;
+    public static final int CHESSBOARD_EXTRA_WIDTH = 0;
 
 
     // define the color_id which may appear on the ground/cube
@@ -68,10 +67,11 @@ public interface Constants {
 
     // constants for math drawing
     // this constansts need to correspond with the UI constants
-    public static final int MATH_MAX_WIDTH = 500;
-    public static final int MATH_O_X = 350;
-    public static final int MATH_O_Y = 200;
+    public static final int MATH_MAX_WIDTH = 1000;
+    public static final int MATH_O_X = 175;
+    public static final int MATH_O_Y = 100;
     public static final double MATH_EPS = 1e-6;
+    public static final int MATH_RNDCNT = 10;
 
 
     // Resource constants for Resource.Basic
@@ -88,7 +88,7 @@ public interface Constants {
         final int[] cubeRight  = {3, 2, 6, 7};
         final int[] cubeTop    = {1, 3, 7, 5};
         final int[] cubeBottom = {0, 2, 6, 4};
-        final int[] cubeBack   = {1, 3, 2, 6};
+        final int[] cubeBack   = {1, 3, 2, 0};
         final int[] cubeFront  = {5, 7, 6, 4};
     }
 

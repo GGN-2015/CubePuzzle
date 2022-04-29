@@ -3,7 +3,6 @@ package cubepuzzle;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Queue;
-import java.util.Scanner;
  
 // describe a game for algorithm
 // because chessboard is fixed, we only need to know the cube
