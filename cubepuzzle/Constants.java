@@ -76,6 +76,10 @@ public interface Constants {
     public static final int MATH_RNDCNT = 20;
 
 
+    // messages in the game
+    public static final String MSG_GAMEERR = "something is wrong with the game file";
+
+
     // Resource constants for Resource.Basic
     // basic elements of the game
     public static final String RESOURCE_BASIC      = "basic"     ;
@@ -94,6 +98,11 @@ public interface Constants {
         final int[] cubeBack   = {1, 3, 2, 0};
         final int[] cubeFront  = {5, 7, 6, 4};
     }
+
+    
+    // TIPS constants
+    public static final String TIPS_NOGAME  = "please start a new game";
+    public static final String TIPS_YOULOSE = "you have lost";
 
 
     // UI constants to show the fram

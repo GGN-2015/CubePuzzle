@@ -146,6 +146,7 @@ class DrawPanel extends JPanel {
             } catch (Exception e) {
                 // error of resource pack may occur
                 e.printStackTrace();
+                JOptionPane.showMessageDialog(null, Constants.MSG_GAMEERR);
             }
             g.drawImage(iBuffer, 0, 0, this);
         }
@@ -180,6 +181,18 @@ class GameKeyListener extends KeyAdapter {
 	public void keyPressed(KeyEvent e){
 		char charA=Character.toLowerCase(e.getKeyChar());
         try{
+            // these are the keys for view point
+            // you can use these keys even when the game is finishe.
+            if(charA == '[') {
+                MathTransform.rotateWatchPoint(- Math.PI / 6);
+            }
+            if(charA == ']') {
+                MathTransform.rotateWatchPoint(Math.PI / 6);
+            }
+            if(charA == 'm') {
+                MathTransform.setLength(DrawPanel.gameNow.getLenX(), DrawPanel.gameNow.getLenY());
+            }
+            
             // only when you are not win can you move by the keyboard
             if(!DrawPanel.gameNow.win() && !DrawPanel.animating) {
                 int animation = Constants.ANIME_NONE;
@@ -208,15 +221,6 @@ class GameKeyListener extends KeyAdapter {
                     if(flag) {
                         animation = Constants.ANIME_OUT;
                     }
-                }
-                if(charA == '[') {
-                    MathTransform.rotateWatchPoint(- Math.PI / 6);
-                }
-                if(charA == ']') {
-                    MathTransform.rotateWatchPoint(Math.PI / 6);
-                }
-                if(charA == 'm') {
-                    MathTransform.setLength(DrawPanel.gameNow.getLenX(), DrawPanel.gameNow.getLenY());
                 }
 
                 // -------------------- ANIMATION PLAYER -------------------- //
