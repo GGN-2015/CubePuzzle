@@ -28,6 +28,7 @@ abstract class AnimationRotate extends Animation {
     final public void paint(Graphics g, double timeNow) throws Exception {
         if (iBuffer == null) {
             iBuffer = GameUI.drawPanel.createImage(GameUI.drawPanel.getWidth(), GameUI.drawPanel.getHeight());
+            //System.out.println(iBuffer + " " + GameUI.drawPanel);
             gBuffer = iBuffer.getGraphics();
         }
         gBuffer.setColor(GameUI.drawPanel.getBackground());

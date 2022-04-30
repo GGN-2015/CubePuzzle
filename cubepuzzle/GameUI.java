@@ -13,22 +13,18 @@ import java.io.FileNotFoundException;
 
 import java.util.Scanner;
 
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.WindowConstants;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
+import javax.swing.*;
 
 // the only use of GameUI is to show and playe a game
 // the other function of the game is based on other part
-public class GameUI extends JFrame implements ActionListener {
+public class GameUI extends JInternalFrame implements ActionListener {
     static DrawPanel drawPanel = null;
     private static GameUI uiInstance = null;
 
     static JLabel stepLabel     = new JLabel("");
     static JLabel msgLabel      = new JLabel("");
 
-    private GameUI() {
+    GameUI() {
         Container conPane = getContentPane();
 
         // draw panel setting
@@ -41,7 +37,7 @@ public class GameUI extends JFrame implements ActionListener {
         this.setSize(Constants.UI_WIDTH, Constants.UI_HEIGHT);
         this.setVisible(true);
         this.setTitle(Constants.UI_TITLE);
-        this.setLocationRelativeTo(null);
+        //this.setLocationRelativeTo(null);
 
         // event listeners
         // this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -58,9 +54,13 @@ public class GameUI extends JFrame implements ActionListener {
     }
 
     // after a new game is set the picture will be repainted
+    @Deprecated
     public void setGame(Game gameNew) {
-        drawPanel.setGame(gameNew);
+        DrawPanel.setGame(gameNew);
         MathTransform.setLength(gameNew.getLenX(), gameNew.getLenY());
+
+        //! repaint after game is set
+        drawPanel.repaint();
     }
 
     // action listener for all the buttons
@@ -113,13 +113,14 @@ class DrawPanel extends JPanel {
 
     // each draw panel have a game
     // which means there many be more than one game on a frame
-    public void setGame(Game gameNew) {
+    public static void setGame(Game gameNew) {
         gameNow = gameNew;
         GameUI.msgLabel.setText(gameNew.getInformation());
         GameUI.stepLabel.setText("StepCnt = " + DrawPanel.gameNow.stepCnt);
 
         //? make sure that the full graph is able to be painted on the screen
         MathTransform.setLength(gameNew.getLenX(), gameNew.getLenY());
+        GameUI.drawPanel.repaint();
     }
 
     private Image iBuffer = null;
@@ -239,7 +240,7 @@ class GameKeyListener extends KeyAdapter {
                 if(DrawPanel.gameNow.win()) {
                     JOptionPane.showMessageDialog(null, "You win!");
                     //! hide when the game is win
-                    GameUI.getInstance().setVisible(false);
+                    //GameUI.getInstance().setVisible(false);
                 }
             }
         }

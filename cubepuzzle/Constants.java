@@ -65,6 +65,10 @@ public interface Constants {
     public static final int ERROR_RUNTIME_NO_GAME_FILE = 2;
 
 
+    // dir related
+    public static final String DIR_GAME = "./games";
+
+
     // constants for math drawing
     // this constansts need to correspond with the UI constants
     public static final int MATH_MAX_WIDTH = 2000;
@@ -79,6 +83,7 @@ public interface Constants {
     public static final String RESOURCE_KEEPOUT    = "keepout"   ;
     public static final String RESOURCE_COLORCHECK = "colorcheck";
 
+    
     // describe the surface of the square
     public interface SURFACE {
         // link the surfaces with it's corner id

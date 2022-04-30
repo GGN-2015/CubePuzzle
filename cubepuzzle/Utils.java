@@ -1,5 +1,9 @@
 package cubepuzzle;
 
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
+
 public interface Utils {
     public static String getDirName(int dirValue) {
         if(dirValue == Constants.ANIME_IN)         return "IN";
@@ -28,5 +32,26 @@ public interface Utils {
 
     public static double getOy() {
         return Constants.UI_HEIGHT / 2;
+    }
+
+    public static boolean gameDirExist() {
+        File gamesDir = new File(Constants.DIR_GAME);
+        if(!gamesDir.exists() || !gamesDir.isDirectory()) return false;
+        return true;
+    }
+
+    public static String[] getGames() {
+        List<String> fileNameList = new ArrayList<>();
+
+        File gamesDir = new File(Constants.DIR_GAME);
+        for(File file: gamesDir.listFiles()) {
+            if(file.exists() && !file.isDirectory()) fileNameList.add(file.getName());
+        }
+
+        String[] ansList = new String[fileNameList.size()];
+        for(int i = 0; i < ansList.length; i ++) {
+            ansList[i] = fileNameList.get(i);
+        }
+        return ansList;
     }
 }

@@ -13,21 +13,22 @@ import javax.swing.JTextArea;
 import javax.swing.JButton;
 
 // Controller Panel is a single instance
-public class ControllerPanel extends JFrame {
-    public static ControllerPanel cpInstance = null;
+@Deprecated
+public class SelectGame extends JFrame {
+    public static SelectGame cpInstance = null;
 
     GameUI gameUI = null;
     JTextArea insInput = null;
     JButton runCommand = null;
 
     // use this static method to get the single instance
-    static public ControllerPanel getInstance() {
-        if(cpInstance == null) cpInstance = new ControllerPanel();
+    static public SelectGame getInstance() {
+        if(cpInstance == null) cpInstance = new SelectGame();
         return cpInstance;
     }
 
     // private constructor of ControllerPanel
-    private ControllerPanel() {
+    private SelectGame() {
         Container container = this.getContentPane();
         
         // apperance setting
