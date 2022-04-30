@@ -143,6 +143,7 @@ public class MathTransform implements Constants{
 
         //! need argument here
         watchPoint = new TupleReal(lenX + 1, 0.5 * lenY, 0.8 * Math.max(lenX, lenY) + 1);
+        basicLength = -1;
     }
 
     // set the watch point
@@ -155,34 +156,38 @@ public class MathTransform implements Constants{
     }
 
     // basicLength is the count of pixel for len 1
+    static int basicLength = -1;
     static int getBasicLength() {
-        TupleReal[] corners = new TupleReal[4];
-        for(int i = 0; i < 4; i ++) {
-            boolean dx = ((i >> 1) & 1) != 0; 
-            boolean dy = ((i >> 0) & 1) != 0;
-            double x = dx ? lenX : 0;
-            double y = dy ? lenY : 0;
-            corners[i] = new TupleReal(x, y, 0);
-        }
-        PairReal[] p2d = new PairReal[4];
-        for(int i = 0; i < 4; i ++) {
-            try {
-                p2d[i] = getPositionOnWatchScreen(corners[i]);
-            } catch (Exception e) {
-                p2d[i] = new PairReal(0, 0);
-                e.printStackTrace();
+        if(basicLength == -1) {
+            TupleReal[] corners = new TupleReal[4];
+            for(int i = 0; i < 4; i ++) {
+                boolean dx = ((i >> 1) & 1) != 0; 
+                boolean dy = ((i >> 0) & 1) != 0;
+                double x = dx ? lenX : 0;
+                double y = dy ? lenY : 0;
+                corners[i] = new TupleReal(x, y, 0);
             }
+            PairReal[] p2d = new PairReal[4];
+            for(int i = 0; i < 4; i ++) {
+                try {
+                    p2d[i] = getPositionOnWatchScreen(corners[i]);
+                } catch (Exception e) {
+                    p2d[i] = new PairReal(0, 0);
+                    e.printStackTrace();
+                }
+            }
+            double minX = p2d[0].x, minY = p2d[0].y, maxX = p2d[0].x, maxY = p2d[0].y;
+            for(int i = 1; i < 4; i ++) {
+                minX = Math.min(minX, p2d[i].x);
+                minY = Math.min(minY, p2d[i].y);
+                maxX = Math.max(maxX, p2d[i].x);
+                maxY = Math.max(maxY, p2d[i].y);
+            }
+            int basicLenX = (int)(0.8 * UI_WIDTH  / (maxX - minX));
+            int basicLenY = (int)(0.8 * UI_HEIGHT / (maxY - minY));
+            basicLength = basicLenX < basicLenY ? basicLenX : basicLenY;
         }
-        double minX = p2d[0].x, minY = p2d[0].y, maxX = p2d[0].x, maxY = p2d[0].y;
-        for(int i = 1; i < 4; i ++) {
-            minX = Math.min(minX, p2d[i].x);
-            minY = Math.min(minY, p2d[i].y);
-            maxX = Math.max(maxX, p2d[i].x);
-            maxY = Math.max(maxY, p2d[i].y);
-        }
-        int basicLenX = (int)(0.8 * UI_WIDTH  / (maxX - minX));
-        int basicLenY = (int)(0.8 * UI_HEIGHT / (maxY - minY));
-        return basicLenX < basicLenY ? basicLenX : basicLenY;
+        return basicLength;
     }
 
     // oblique secondary auxiliary drawing (side edge)
