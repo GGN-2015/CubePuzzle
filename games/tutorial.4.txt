@@ -1,0 +1,13 @@
+5 5
+0 0
+4 3
+
+
+basic.none      basic.none              basic.keepout           basic.none              basic.none
+basic.none      basic.none              basic.keepout           basic.none              basic.none
+basic.none      basic.none              basic.colorcheck.6      basic.colorcheck.4      basic.colorcheck.3
+basic.none      basic.none              basic.keepout           basic.keepout           basic.none
+basic.none      basic.none              basic.keepout           basic.none              basic.none
+
+Author: GGN_2015
+Name: Long Bridge.

@@ -141,16 +141,6 @@ public class FindWayAlgo {
         }
     }
 
-    public String getNextMove() {
-        //! when you fail a game, tips is also 'null'
-        //! so judge fail first
-        if(fail == true) return Constants.TIPS_YOULOSE;
-        if(tips == null) return Constants.TIPS_NOGAME;
-
-        // return the name of the first operation if possible
-        return Utils.getDirName(tips[0]);
-    }
-
     public static void main(String[] args) throws Exception {
         Game gameTest = new Game("games/tutorial.1.txt");
         FindWayAlgo algo = new FindWayAlgo(gameTest);
@@ -162,5 +152,15 @@ public class FindWayAlgo {
             System.out.print(Utils.getDirName(dir) + " ");
         }
         System.out.println();
+    }
+
+    public Object getTips() {
+        //! when you fail a game, tips is also 'null'
+        //! so judge fail first
+        if(fail == true) return Constants.TIPS_YOULOSE;
+        if(tips == null) return Constants.TIPS_NOGAME;
+
+        // return the name of the first operation if possible
+        return Utils.getDirName(tips[0]) + "(" + tips.length +  " steps left)";
     }
 }

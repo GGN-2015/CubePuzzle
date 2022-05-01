@@ -1,0 +1,13 @@
+5 5
+1 1
+3 3
+
+
+basic.none      basic.none      basic.keepout           basic.none          basic.none
+basic.none      basic.none      basic.keepout           basic.none          basic.none
+basic.none      basic.none      basic.colorcheck.2      basic.colorcheck.3  basic.none
+basic.none      basic.none      basic.keepout           basic.none          basic.none
+basic.none      basic.none      basic.keepout           basic.none          basic.none
+
+Author: GGN_2015
+Name: Bridge.

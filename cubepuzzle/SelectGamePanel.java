@@ -51,7 +51,7 @@ public class SelectGamePanel extends JPanel {
             public void actionPerformed(ActionEvent event) {
                 try {
                     FindWayAlgo findWayAlgo = new FindWayAlgo(DrawPanel.gameNow);
-                    JOptionPane.showMessageDialog(null, findWayAlgo.getNextMove());
+                    JOptionPane.showMessageDialog(null, findWayAlgo.getTips());
                 } catch(Exception exp) {
                     JOptionPane.showMessageDialog(null, Constants.MSG_GAMEERR);
                 }
