@@ -11,7 +11,7 @@ public class SelectGamePanel extends JPanel {
     private JComboBox<String> gameComboBox = null;
 
     public SelectGamePanel() {
-        setLayout(new FlowLayout(FlowLayout.LEFT, Constants.CP_SEPERATE, Constants.CP_SEPERATE));
+        setLayout(new GridLayout(Constants.CP_ROWS, Constants.CP_COLS, Constants.CP_SEPERATE, Constants.CP_SEPERATE));
         //setBounds(0, 0, Constants.CP_WIDTH, Constants.CP_HEIGHT);
         setMaximumSize(new Dimension(Constants.CP_WIDTH, Constants.CP_HEIGHT));
         setBackground(Color.DARK_GRAY);

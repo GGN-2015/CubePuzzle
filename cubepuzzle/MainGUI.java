@@ -23,7 +23,9 @@ public class MainGUI extends JFrame{
         setExtendedState(JFrame.MAXIMIZED_BOTH);
         setResizable(false);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+
     }
+    
     public static MainGUI getInstance() throws FileNotFoundException {
         return new MainGUI();
     }

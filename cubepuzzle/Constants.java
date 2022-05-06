@@ -37,6 +37,8 @@ public interface Constants {
     public static final int CP_WIDTH    = 200;
     public static final int CP_SEPERATE = 10;
     public static final String CP_TITLE = "Cube Puzzle Controller Panel";
+    public static final int CP_ROWS     = 20;
+    public static final int CP_COLS     = 1;
 
 
     // define the 6 surfaces of a cube
