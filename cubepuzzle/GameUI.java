@@ -183,14 +183,17 @@ class GameKeyListener extends KeyAdapter {
         try{
             // these are the keys for view point
             // you can use these keys even when the game is finishe.
+
+            //! attention, in the new version, all the angle was set on the scroll bar
+            int nowValue = SelectGamePanel.jViewScrollBar.getValue();
             if(charA == '[') {
-                MathTransform.rotateWatchPoint(- Math.PI / 180);
+                SelectGamePanel.jViewScrollBar.setValue((nowValue + 180 - Constants.MATH_MIN_DEG + 360) % 360 - 180);
             }
             if(charA == ']') {
-                MathTransform.rotateWatchPoint(Math.PI / 180);
+                SelectGamePanel.jViewScrollBar.setValue((nowValue + 180 + Constants.MATH_MIN_DEG + 360) % 360 - 180);
             }
             if(charA == 'm') {
-                MathTransform.setLength(DrawPanel.gameNow.getLenX(), DrawPanel.gameNow.getLenY());
+                SelectGamePanel.jViewScrollBar.setValue(0);
             }
             
             // only when you are not win can you move by the keyboard
@@ -249,7 +252,8 @@ class GameKeyListener extends KeyAdapter {
             }
         }
         catch(Exception ex) {
-            ex.printStackTrace();
+            //! if gameNow is null, ignore it
+            //ex.printStackTrace();
         }
         GameUI.drawPanel.repaint();
 	}

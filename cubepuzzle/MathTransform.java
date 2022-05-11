@@ -403,4 +403,8 @@ public class MathTransform implements Constants{
         }
         System.out.println("cnt: " + 1.0 * cnt / MAXN);
     }
+
+    public static void returnToMainAngle() {
+        MathTransform.setLength(DrawPanel.gameNow.getLenX(), DrawPanel.gameNow.getLenY());
+    }
 }

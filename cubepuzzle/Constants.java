@@ -70,12 +70,23 @@ public interface Constants {
     // dir related
     public static final String DIR_GAME = "./games";
 
+    
+    // constants in the game
+    public static final String GAME_NOT_START = "You need to start a game first!";
+    public static final String GAME_NO_SOURCE = "There is no game in the games folder!";
+
+
+    // sizeof the MainGUI
+    public static final int MAIN_WIDTH  = 1920;
+    public static final int MAIN_HEIGHT = 1080;
+
 
     // constants for math drawing
     // this constansts need to correspond with the UI constants
-    public static final int MATH_MAX_WIDTH = 2000;
-    public static final double MATH_EPS = 1e-6;
-    public static final int MATH_RNDCNT = 20;
+    public static final int    MATH_MAX_WIDTH   = 2000;
+    public static final double MATH_EPS         = 1e-6;
+    public static final int    MATH_RNDCNT      = 20;
+    public static final int    MATH_MIN_DEG     = 2;
 
 
     // messages in the game

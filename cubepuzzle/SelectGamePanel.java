@@ -10,6 +10,8 @@ import javax.swing.*;
 public class SelectGamePanel extends JPanel {
     private JComboBox<String> gameComboBox = null;
 
+    //! all the operation of angle rotation is set on the Scroll Bar
+    static JScrollBar jViewScrollBar = new JScrollBar(JScrollBar.HORIZONTAL, 0, 1, -180, 179);
     public SelectGamePanel() {
         setLayout(new GridLayout(Constants.CP_ROWS, Constants.CP_COLS, Constants.CP_SEPERATE, Constants.CP_SEPERATE));
         //setBounds(0, 0, Constants.CP_WIDTH, Constants.CP_HEIGHT);
@@ -45,6 +47,8 @@ public class SelectGamePanel extends JPanel {
             }
         });
 
+        newGame();
+
         JButton getTips = new JButton("get tips");
         add(getTips);
         getTips.addActionListener(new ActionListener() {
@@ -60,5 +64,37 @@ public class SelectGamePanel extends JPanel {
                 GameUI.drawPanel.requestFocus();
             }
         });
+
+        jViewScrollBar.addAdjustmentListener(new AdjustmentListener() {
+            public void adjustmentValueChanged(AdjustmentEvent e) {
+                // rotate to the direction
+                try {
+                    MathTransform.returnToMainAngle();
+                    MathTransform.rotateWatchPoint(((JScrollBar)e.getSource()).getValue() / 180.0 * Math.PI);
+                    GameUI.drawPanel.repaint();  
+                }
+                catch(Exception ex) {
+                    //! every pixel matters
+                    //JOptionPane.showMessageDialog(null, Constants.GAME_NOT_START);
+                    ((JScrollBar)e.getSource()).setValue(0);
+                }
+            }
+        });
+        add(jViewScrollBar);
+    }
+
+    public void newGame() {
+        if(gameComboBox.getItemCount() == 0) {
+            JOptionPane.showMessageDialog(null, Constants.GAME_NO_SOURCE);
+            System.exit(1);
+        }
+        try {
+            String gameNow = (String)gameComboBox.getSelectedItem(); //! maybe no item
+            String gameFileName = Constants.DIR_GAME + "/" + gameNow;
+            GameUI.drawPanel.requestFocus();
+            DrawPanel.setGame(new Game(gameFileName)); //! maybe file not found
+        }catch(Exception ex) {
+            ex.printStackTrace();
+        }
     }
 }
