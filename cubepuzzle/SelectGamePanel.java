@@ -8,7 +8,7 @@ import javax.swing.*;
 
 
 public class SelectGamePanel extends JPanel {
-    private JComboBox<String> gameComboBox = null;
+    static JComboBox<String> gameComboBox = null;
 
     //! all the operation of angle rotation is set on the Scroll Bar
     static JScrollBar jViewScrollBar = new JScrollBar(JScrollBar.HORIZONTAL, 0, 1, -180, 179);
@@ -26,9 +26,14 @@ public class SelectGamePanel extends JPanel {
         }
         
         gameComboBox = new JComboBox<>(Utils.getGames());
+        gameComboBox.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                newGame();
+            }
+        });
         add(gameComboBox);
 
-        JButton startGame = new JButton("start game");
+        JButton startGame = new JButton(Constants.BUTTON_RESTART);
         add(startGame);
         startGame.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent event) {
@@ -49,13 +54,17 @@ public class SelectGamePanel extends JPanel {
 
         newGame();
 
-        JButton getTips = new JButton("get tips");
+        JButton getTips = new JButton(Constants.BUTTON_GET_TIPS);
         add(getTips);
         getTips.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent event) {
                 try {
-                    FindWayAlgo findWayAlgo = new FindWayAlgo(DrawPanel.gameNow);
-                    JOptionPane.showMessageDialog(null, findWayAlgo.getTips());
+                    if(DrawPanel.gameNow.win()) {
+                        JOptionPane.showMessageDialog(null, Constants.MSG_WIN);
+                    }else {
+                        FindWayAlgo findWayAlgo = new FindWayAlgo(DrawPanel.gameNow);
+                        JOptionPane.showMessageDialog(null, findWayAlgo.getTips());
+                    }
                 } catch(Exception exp) {
                     JOptionPane.showMessageDialog(null, Constants.MSG_GAMEERR);
                 }
@@ -83,7 +92,7 @@ public class SelectGamePanel extends JPanel {
         add(jViewScrollBar);
     }
 
-    public void newGame() {
+    static public void newGame() {
         if(gameComboBox.getItemCount() == 0) {
             JOptionPane.showMessageDialog(null, Constants.GAME_NO_SOURCE);
             System.exit(1);

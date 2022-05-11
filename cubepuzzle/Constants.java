@@ -14,6 +14,7 @@ public interface Constants {
     // button names
     public static final String BUTTON_RESTART    = "Restart";
     public static final String BUTTON_RUNCOMMAND = "Run Command";
+    public static final String BUTTON_GET_TIPS = "Get Tips";
 
     // chessboard arguments
     public static final int CHESSBOARD_EXTRA_WIDTH = 0;
@@ -91,6 +92,7 @@ public interface Constants {
 
     // messages in the game
     public static final String MSG_GAMEERR = "something is wrong with the game file";
+    public static final String MSG_WIN = "You have already win";
 
 
     // Resource constants for Resource.Basic
@@ -114,8 +116,8 @@ public interface Constants {
 
     
     // TIPS constants
-    public static final String TIPS_NOGAME  = "please start a new game";
-    public static final String TIPS_YOULOSE = "you have lost";
+    public static final String TIPS_NOGAME  = "Please start a new game";
+    public static final String TIPS_YOULOSE = "You have lost";
 
 
     // UI constants to show the fram
