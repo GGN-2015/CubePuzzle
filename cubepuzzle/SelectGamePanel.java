@@ -102,6 +102,7 @@ public class SelectGamePanel extends JPanel {
             String gameFileName = Constants.DIR_GAME + "/" + gameNow;
             GameUI.drawPanel.requestFocus();
             DrawPanel.setGame(new Game(gameFileName)); //! maybe file not found
+            jViewScrollBar.setValue(0);
         }catch(Exception ex) {
             ex.printStackTrace();
         }

@@ -102,9 +102,11 @@ class TupleReal {
     TupleReal cross(TupleReal rhs) {
         return new TupleReal(y*rhs.z - z*rhs.y, z*rhs.x - x*rhs.z, x*rhs.y - y*rhs.x);
     }
+
+    static TupleReal BASIC_WATCH_POINT = new TupleReal(10, 5, 10);
 }
 
-// describe a surface
+// describe a surface, (implemented by ArrayList of TupleReal)
 class Surface {
     ArrayList<TupleReal> points = new ArrayList<>();
     public Surface() {
@@ -113,6 +115,7 @@ class Surface {
     void add(TupleReal np) {
         points.add(np);
     }
+    // write a toArray() function by myself
     TupleReal[] toArray() {
         TupleReal[] ans = new TupleReal[points.size()];
         for(int i = 0; i < points.size(); i ++) {
@@ -123,10 +126,11 @@ class Surface {
 }
 
 public class MathTransform implements Constants{
-    static int lenX = 5, lenY = 5;
+    //! size of the chessboard (lenX, lenY) will be set when game begins
+    static int lenX = 5, lenY = 5; 
 
     // watch line is the norm vec for the watch surface
-    protected static TupleReal watchPoint = new TupleReal(10, 5, 10);
+    protected static TupleReal watchPoint = TupleReal.BASIC_WATCH_POINT;
 
     public static TupleReal getMidPoint() {
         return new TupleReal(0.5 * lenX, 0.5 * lenY, 0);
@@ -156,8 +160,10 @@ public class MathTransform implements Constants{
     }
 
     // basicLength is the count of pixel for len 1
+    // use getBasicLength() to fit different chessboard size
     static int basicLength = -1;
     static int getBasicLength() {
+        // basiclength = -1 means this is the first time to config this length
         if(basicLength == -1) {
             TupleReal[] corners = new TupleReal[4];
             for(int i = 0; i < 4; i ++) {
@@ -328,6 +334,7 @@ public class MathTransform implements Constants{
     public static boolean hidePoint(TupleReal p, TupleReal[] surface) {
         boolean ans = false;
         for(int i = 1; i + 1 < surface.length; i ++) {
+            // regard this suface as a integral of many trangles
             if(hidePoint(p, surface[0], surface[i], surface[i+1])) {
                 ans = true;
                 break;

@@ -24,7 +24,6 @@ public class MainGUI extends JFrame{
         setExtendedState(JFrame.MAXIMIZED_BOTH);
         setResizable(false); // ! this can only set a button, but you can still Maximum or Minimum
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-
     }
     
     public static MainGUI getInstance() throws FileNotFoundException {
