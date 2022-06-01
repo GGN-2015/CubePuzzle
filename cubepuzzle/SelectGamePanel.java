@@ -46,6 +46,7 @@ public class SelectGamePanel extends JPanel {
                     //! 3. this BAD issue will be fixed in the future COMMITS.
                     GameUI.drawPanel.requestFocus();
                     DrawPanel.setGame(new Game(gameFileName));
+                    jViewScrollBar.setValue(0); // initially set the main aspect
                 } catch(FileNotFoundException exp) {
                     JOptionPane.showMessageDialog(null, "game file '" + gameFileName + "' not found!");
                 }

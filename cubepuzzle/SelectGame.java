@@ -12,7 +12,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JTextArea;
 import javax.swing.JButton;
 
-// Controller Panel is a single instance
+// Controller Panel is a singleton
+//! this class will be removed in the future version
 @Deprecated
 public class SelectGame extends JFrame {
     public static SelectGame cpInstance = null;

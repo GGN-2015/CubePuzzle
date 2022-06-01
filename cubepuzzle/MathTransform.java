@@ -103,7 +103,7 @@ class TupleReal {
         return new TupleReal(y*rhs.z - z*rhs.y, z*rhs.x - x*rhs.z, x*rhs.y - y*rhs.x);
     }
 
-    static TupleReal BASIC_WATCH_POINT = new TupleReal(10, 5, 10);
+    public static TupleReal BASIC_WATCH_POINT = new TupleReal(10, 5, 10);
 }
 
 // describe a surface, (implemented by ArrayList of TupleReal)
