@@ -1,0 +1,14 @@
+5 5
+0 0
+3 3
+
+
+basic.none           basic.none           basic.none           basic.none           basic.none           
+basic.none           basic.none           basic.none           basic.colorcheck.5   basic.none           
+basic.none           basic.none           basic.keepout        basic.none           basic.keepout        
+basic.none           basic.colorcheck.5   basic.none           basic.none           basic.none           
+basic.none           basic.none           basic.keepout        basic.none           basic.keepout        
+
+
+Author: GGN_2015
+Name: Diamond

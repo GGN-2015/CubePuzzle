@@ -1,12 +1,15 @@
 package cubepuzzle;
 
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Game {
-    private int lenX, lenY, beginX, beginY, endX, endY;
+    int lenX, lenY, beginX, beginY, endX, endY;
     int posX, posY, stepCnt = 0;
     String chessboard[][];
     public String[] information;
@@ -41,7 +44,7 @@ public class Game {
         chessboard = new String[lenX][lenY];
         for(int i = 0; i < lenX; i ++) {
             for(int j = 0; j < lenY; j ++) {
-                chessboard[i][j] = "basic.none";
+                chessboard[i][j] = Constants.RESOURCE_BASIC + "." + Constants.RESOURCE_NONE;
             }
         }
         posX = beginX;
@@ -82,6 +85,31 @@ public class Game {
         myLastCube = new Cube();
     }
 
+    // save a game status to a file as a new game
+    public void saveGame(String fileName) throws IOException{
+        FileWriter      fw = new FileWriter(fileName);
+        BufferedWriter out = new BufferedWriter(fw);
+        out.write(this.lenX + " ");
+        out.write(this.lenY + "\n");   // output the size of the game
+        out.write(this.beginX + " ");
+        out.write(this.beginY + "\n"); // output the beginning position
+        out.write(this.endX + " ");
+        out.write(this.endY + "\n");   // output the end position
+        out.write("\n\n");
+        // output the message of chessboard to the file after two empty line
+        for(int i = 0; i < this.chessboard.length; i ++) {
+            for(int j = 0; j  < this.chessboard[i].length; j ++) {
+                out.write(String.format("%-20s ", this.chessboard[i][j]));
+            }
+            out.write("\n");
+        }
+        out.write("\n\n");
+        for(int i = 0; i < information.length; i ++) {
+            out.write(information[i] + "\n"); //? information is trimed when readin
+        }
+        out.close();
+    }
+
     // when you want to restart the game from the beginning
     public void restart() {
         posX = beginX; 
@@ -91,7 +119,7 @@ public class Game {
         myLastCube = new Cube();
     }
 
-    // when you come to endX, endY and step > 0
+    // when you come to endX, endY and step > 0, you win
     // which means you can not win if you don't move
     public boolean win() {
         return posX == endX && posY == endY && stepCnt > 0;
@@ -113,6 +141,7 @@ public class Game {
             posY --;
             myCube.rollLeft();
             if(!checkPosEnter()) {
+                //! this feature will be updated by polymorphism in later versions
                 stepCnt --;
                 posY ++;
                 myCube.rollRight();

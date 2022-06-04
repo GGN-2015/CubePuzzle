@@ -1,6 +1,7 @@
 package cubepuzzle;
 
 import java.io.File;
+import java.nio.charset.MalformedInputException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,6 +14,15 @@ public interface Utils {
         else {
             return "NOTDIR";
         }
+    }
+
+    // get a number list 0 .. maxLen - 1 in type string[]
+    public static String[] getNumberList(int maxLen) {
+        String[] lis = new String[maxLen];
+        for(int i = 0; i < maxLen; i ++) {
+            lis[i] = Integer.toString(i); // get the string value of an integer
+        }
+        return lis;
     }
 
     public static int[][] getCubeSurfaces() {

@@ -12,9 +12,13 @@ public interface Constants {
 
     
     // button names
-    public static final String BUTTON_RESTART    = "Restart";
+    public static final String BUTTON_RESTART    = "Restart"    ;
     public static final String BUTTON_RUNCOMMAND = "Run Command";
-    public static final String BUTTON_GET_TIPS = "Get Tips";
+    public static final String BUTTON_GET_TIPS   = "Get Tips"   ;
+    public static final String BUTTON_EDIT       = "Edit Map"   ;
+    public static final String Button_SET_VALUE  = "Set Value"  ;
+    public static final String BUTTON_GET_VALUE  = "Get Value"  ;
+    public static final String BUTTON_SAVE_FILE  = "Save File"  ;
 
     // chessboard arguments
     public static final int CHESSBOARD_EXTRA_WIDTH = 0;
@@ -34,13 +38,13 @@ public interface Constants {
     public static final int COLOR_GRAY   =  8;
     public static final int COLOR_CYAN   =  9;
 
-    public static final int CP_HEIGHT   = 300;
-    public static final int CP_WIDTH    = 200;
-    public static final int CP_SEPERATE = 10;
-    public static final String CP_TITLE = "Cube Puzzle Controller Panel";
-    public static final int CP_ROWS     = 20;
-    public static final int CP_COLS     = 1;
-
+    public static final int    CP_HEIGHT     = 300;
+    public static final int    CP_WIDTH      = 200;
+    public static final int    CP_SEPERATE   = 10;
+    public static final String CP_TITLE      = "Cube Puzzle Controller Panel";
+    public static final String CP_EDIT_TITLE = "Cube Puzzle Edit Frame";
+    public static final int    CP_ROWS       = 20;
+    public static final int    CP_COLS       = 1;
 
     // define the 6 surfaces of a cube
     // xface, yface, zface are the three faces that can be seen on the screen

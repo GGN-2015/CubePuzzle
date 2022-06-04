@@ -91,6 +91,15 @@ public class SelectGamePanel extends JPanel {
             }
         });
         add(jViewScrollBar);
+
+        JButton editButton = new JButton(Constants.BUTTON_EDIT);
+        add(editButton);
+        editButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                // OptionPane.showMessageDialog(null, "Not finished", "Edit Map", 0);
+                new EditFrame();
+            }
+        });
     }
 
     static public void newGame() {
@@ -103,7 +112,6 @@ public class SelectGamePanel extends JPanel {
             String gameFileName = Constants.DIR_GAME + "/" + gameNow;
             GameUI.drawPanel.requestFocus();
             DrawPanel.setGame(new Game(gameFileName)); //! maybe file not found
-            jViewScrollBar.setValue(0);
         }catch(Exception ex) {
             ex.printStackTrace();
         }

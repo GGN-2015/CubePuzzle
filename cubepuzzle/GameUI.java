@@ -115,6 +115,8 @@ class DrawPanel extends JPanel {
     // which means there many be more than one game on a frame
     public static void setGame(Game gameNew) {
         gameNow = gameNew;
+        SelectGamePanel.jViewScrollBar.setValue(0); //! use this to ensure angle = 0 at the beginning
+        
         GameUI.msgLabel.setText(gameNew.getInformation());
         GameUI.stepLabel.setText("StepCnt = " + DrawPanel.gameNow.stepCnt);
 
